@@ -1,0 +1,14 @@
+node_modules
+# Keep environment variables out of version control
+.env
+
+# Ignore contents of videos folder
+public/videos/*
+
+# Ignore contents of images folder
+public/images/*
+
+# Ignore contents of documents folder
+public/documents/*
+
+package-lock.json
