@@ -19,7 +19,7 @@ module.exports = {
             }
 
             const stringFile = file.buffer.toString('base64');
-            const uploadFile = await imagekit.upload({
+            const uploadFileResponse = await imagekit.upload({
                 fileName: `${Date.now()}${path.extname(file.originalname)}`,
                 file: stringFile
             });
@@ -28,7 +28,8 @@ module.exports = {
                 data: {
                     title,
                     description,
-                    imageUrl: uploadFile.url
+                    imageUrl: uploadFileResponse.url,
+                    fileId: uploadFileResponse.fileId
                 },
             });
 
@@ -49,8 +50,6 @@ module.exports = {
             const images = await prisma.image.findMany({
                 select: {
                     id: true,
-                    // title: true,
-                    // description: true,
                     imageUrl: true
                 },
                 orderBy: {
@@ -201,7 +200,7 @@ module.exports = {
                 return res.status(200).json({
                     status: true,
                     message: 'Image deleted successfully',
-                    data: deletedImage
+                    data: deleteImage
                 });
             }
         } catch (err) {
