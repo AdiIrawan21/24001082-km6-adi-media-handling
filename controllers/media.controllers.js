@@ -176,24 +176,37 @@ module.exports = {
         try {
             const { id } = req.params;
 
-            const deletedImage = await prisma.image.delete({
-                where: { id: parseInt(id) }
+            // Dapatkan informasi URL gambar yang akan dihapus
+            const imageInfo = await prisma.image.findUnique({
+                where: { id: parseInt(id) },
             });
 
-            return res.status(200).json({
-                status: true,
-                message: 'Image deleted successfully',
-                data: deletedImage
-            });
-        } catch (err) {
-            if (err.code === 'P2025') {
+            if (!imageInfo) {
                 return res.status(404).json({
                     status: false,
-                    message: 'Image not found',
+                    message: 'Data images not found',
                     data: null
                 });
             }
+
+            // Hapus gambar dari ImageKit.io
+            const deleteImage = await imagekit.deleteFile(imageInfo.url);
+
+            if (deleteImage) {
+                await prisma.image.delete({
+                    where: {
+                        id: parseInt(id),
+                    },
+                })
+                return res.status(200).json({
+                    status: true,
+                    message: 'Image deleted successfully',
+                    data: deletedImage
+                });
+            }
+        } catch (err) {
             next(err);
         }
     }
-};
+}
+
