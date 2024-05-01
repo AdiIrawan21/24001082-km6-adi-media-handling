@@ -11,8 +11,8 @@
             "description": "localhost"
         },
         {
-            "url": "https://your-hosted-url.com/api/v1",
-            "description": "Hostingan"
+            "url": "expressjs-development-9b92.up.railway.app/api/v1",
+            "description": "Railway"
         }
     ],
     "paths": {
