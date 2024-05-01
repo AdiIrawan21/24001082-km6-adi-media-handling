@@ -9,6 +9,10 @@
         {
             "url": "http://localhost:3000/api/v1",
             "description": "localhost"
+        },
+        {
+            "url": "https://your-hosted-url.com/api/v1",
+            "description": "Hostingan"
         }
     ],
     "paths": {

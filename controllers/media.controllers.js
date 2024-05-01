@@ -19,7 +19,7 @@ module.exports = {
             }
 
             const stringFile = file.buffer.toString('base64');
-            const uploadFileResponse = await imagekit.upload({
+            const uploadFile = await imagekit.upload({
                 fileName: `${Date.now()}${path.extname(file.originalname)}`,
                 file: stringFile
             });
@@ -28,8 +28,7 @@ module.exports = {
                 data: {
                     title,
                     description,
-                    imageUrl: uploadFileResponse.url,
-                    fileId: uploadFileResponse.fileId
+                    imageUrl: uploadFile.url
                 },
             });
 
@@ -50,6 +49,8 @@ module.exports = {
             const images = await prisma.image.findMany({
                 select: {
                     id: true,
+                    // title: true,
+                    // description: true,
                     imageUrl: true
                 },
                 orderBy: {
@@ -175,37 +176,24 @@ module.exports = {
         try {
             const { id } = req.params;
 
-            // Dapatkan informasi URL gambar yang akan dihapus
-            const imageInfo = await prisma.image.findUnique({
-                where: { id: parseInt(id) },
+            const deletedImage = await prisma.image.delete({
+                where: { id: parseInt(id) }
             });
 
-            if (!imageInfo) {
+            return res.status(200).json({
+                status: true,
+                message: 'Image deleted successfully',
+                data: deletedImage
+            });
+        } catch (err) {
+            if (err.code === 'P2025') {
                 return res.status(404).json({
                     status: false,
-                    message: 'Data images not found',
+                    message: 'Image not found',
                     data: null
                 });
             }
-
-            // Hapus gambar dari ImageKit.io
-            const deleteImage = await imagekit.deleteFile(imageInfo.url);
-
-            if (deleteImage) {
-                await prisma.image.delete({
-                    where: {
-                        id: parseInt(id),
-                    },
-                })
-                return res.status(200).json({
-                    status: true,
-                    message: 'Image deleted successfully',
-                    data: deleteImage
-                });
-            }
-        } catch (err) {
             next(err);
         }
     }
 }
-
