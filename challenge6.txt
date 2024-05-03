@@ -1,0 +1,4 @@
+- Tugas Challenge Media Handling, Deploymen
+1. Link Github: https://github.com/AdiIrawan21/24001082-km6-adi-media-handling
+2. Link Deployment Development: https://expressjs-development-9b92.up.railway.app
+3. Link Deployment Production: https://expressjs-development-9b92.up.railway.app/
