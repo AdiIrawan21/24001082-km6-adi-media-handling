@@ -13,6 +13,10 @@
         {
             "url": "https://expressjs-development-9b92.up.railway.app/api/v1",
             "description": "Railway"
+        },
+        {
+            "url": "https://expressjs-prod-ddc2.up.railway.app/api/v1",
+            "description": "Railway"
         }
     ],
     "paths": {
