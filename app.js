@@ -23,7 +23,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(apiDocumentation));
 const mediaRoutes = require('./routes/media.routes');
 app.use('/api/v1', mediaRoutes);
 
-app.use('/', (req, res) => {
+app.get('/', (req, res) => {
     res.send("Hello, ini challenge chapter 6, silakan akses /api-docs untuk melihat documentation api");
 })
 
